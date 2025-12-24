@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Nuestra Historia | Ale & Juan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+    <style>
+        /* --- VARIABLES & RESET --- */
+        :root {
+            /* Paleta solicitada */
+            --bg-color: #F9F6F2; /* Blanco perla */
+            --bg-gradient: radial-gradient(circle at center, #F9F6F2 0%, #F0E6EA 100%);
+            --text-main: #4A4A4A;
+            --text-light: #666666;
+            --gold: #D4AF37;
+            --gold-light: #E5C560;
+            --pink-soft: #F5E6E8;
+            --white: #FFFFFF;
+            
+            /* Glassmorphism */
+            --glass-bg: rgba(255, 255, 255, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.4);
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+
+            /* Transiciones */
+            --trans-speed: 0.5s;
+        }
+
+        /* Modo Nocturno / Romántico */
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --bg-gradient: radial-gradient(circle at center, #2c2c2c 0%, #111111 100%);
+            --text-main: #f0f0f0;
+            --text-light: #cccccc;
+            --gold: #D4AF37;
+            --pink-soft: #2a2a2a;
+            --white: rgba(255, 255, 255, 0.05);
+            --glass-bg: rgba(0, 0, 0, 0.4);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background: var(--bg-color);
+            background-image: var(--bg-gradient);
+            color: var(--text-main);
+            overflow-x: hidden;
+            transition: background 1s ease, color 1s ease;
+            min-height: 100vh;
+            -webkit-tap-highlight-color: transparent; /* Quita el highlight azul en móviles al tocar */
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .cursive {
+            font-family: 'Dancing Script', cursive;
+        }
+
+        /* --- UTILIDADES --- */
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+            border-radius: 16px;
+        }
+
+        .btn-gold {
+            background: transparent;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 15px 40px;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            border-radius: 50px;
+            /* Mejora táctil */
+            touch-action: manipulation;
+        }
+
+        .btn-gold:active, .btn-gold:hover {
+            background: var(--gold);
+            color: var(--white);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        /* Animación de pulso suave para el botón final */
+        .btn-pulse {
+            animation: btnPulse 2s infinite;
+        }
+        
+        @keyframes btnPulse {
+            0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); }
+            70% { box-shadow: 0 0 0 15px rgba(212, 175, 55, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+        }
+
+        /* Botones de respuesta */
+        .btn-answer {
+            background: rgba(212, 175, 55, 0.1);
+            border: 2px solid var(--gold);
+            color: var(--gold);
+            padding: 15px 30px;
+            font-family: 'Lato', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 10px;
+            margin: 10px;
+            display: inline-block;
+            /* Mejora táctil */
+            min-height: 48px; /* Tamaño mínimo recomendado para touch */
+        }
+
+        .btn-answer:active, .btn-answer:hover {
+            background: var(--gold);
+            color: var(--bg-color); /* Contraste dinámico */
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+        }
+        
+        [data-theme="dark"] .btn-answer:hover {
+            color: #000;
+        }
+
+        /* --- PORTADA (INTRO) --- */
+        #intro-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            text-align: center;
+            padding: 20px;
+            background-image: var(--bg-gradient);
+            transition: opacity 1.5s ease, visibility 1.5s;
+        }
+
+        .intro-content {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1.5s forwards 0.5s;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .main-title {
+            font-size: 3rem; /* Ajustado para móvil */
+            color: var(--gold);
+            margin-bottom: 10px;
+            font-style: italic;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            margin-bottom: 40px;
+            color: var(--text-light);
+            text-transform: uppercase;
+            padding: 0 10px;
+        }
+
+        .hero-image-placeholder {
+            width: 180px; /* Un poco más pequeño en móvil por defecto */
+            height: 180px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--gold-light), var(--pink-soft));
+            margin: 0 auto 40px;
+            position: relative;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
+            animation: float 6s ease-in-out infinite;
+            overflow: hidden; 
+        }
+
+        .hero-image-placeholder::after {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            right: 5px;
+            bottom: 5px;
+            border-radius: 50%;
+            border: 1px dashed var(--white);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* --- TRANSICIÓN MÁGICA --- */
+        #transition-msg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 900;
+            background: var(--bg-color);
+            opacity: 0;
+            visibility: hidden;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem; /* Ajustado */
+            color: var(--gold);
+            pointer-events: none;
+            transition: opacity 1s ease;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* --- CONTENIDO PRINCIPAL --- */
+        #main-content {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 2s ease;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* --- LÍNEA DE TIEMPO --- */
+        .timeline-section {
+            padding: 80px 15px; /* Menos padding lateral en móvil */
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.2rem;
+            color: var(--gold);
+            margin-bottom: 60px;
+            opacity: 0; /* Para animación */
+        }
+
+        .timeline-container {
+            position: relative;
+        }
+
+        /* Línea central dorada */
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--gold);
+            transform: translateX(-50%);
+            transform-origin: top;
+            transform: scaleY(0); /* Inicialmente oculta */
+            transition: transform 2s ease-in-out;
+        }
+
+        .timeline-item {
+            display: flex;
+            justify-content: center;
+            padding-bottom: 60px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+        }
+
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .timeline-content {
+            width: 45%;
+            padding: 25px;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        /* Alternancia de lados (Desktop) */
+        .timeline-item:nth-child(odd) .timeline-content {
+            margin-right: auto;
+            text-align: right;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: auto;
+            text-align: left;
+        }
+
+        /* Punto central */
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            top: 30px;
+            width: 16px;
+            height: 16px;
+            background: var(--bg-color);
+            border: 2px solid var(--gold);
+            border-radius: 50%;
+            transform: translateX(-50%) scale(0);
+            z-index: 5;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
+        }
+
+        .timeline-item.visible .timeline-dot {
+            transform: translateX(-50%) scale(1);
+        }
+
+        .timeline-date {
+            color: var(--gold);
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            display: block;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+        }
+
+        .timeline-title {
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        .timeline-desc {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-light);
+        }
+
+        .timeline-icon {
+            font-size: 1.8rem;
+            color: var(--gold);
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        /* --- SECCIÓN PRE-PROPUESTA (MENSAJE) --- */
+        .proposal-section {
+            min-height: 70vh; /* Ajuste para móvil */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 60px 20px;
+            position: relative;
+        }
+
+        .romantic-msg {
+            max-width: 600px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 40px;
+            font-style: italic;
+        }
+
+        footer {
+            padding: 30px 20px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-light);
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        /* --- PANTALLA DE PROPUESTA FINAL (MODAL) --- */
+        .proposal-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 1s ease, visibility 1s;
+            background-color: var(--bg-color); 
+            background-image: var(--bg-gradient);
+        }
+
+        .proposal-screen.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .proposal-content-wrapper {
+            position: relative;
+            z-index: 2001;
+            padding: 30px 20px;
+            width: 100%;
+            max-width: 800px;
+            height: 100%;
+            text-align: center;
+            overflow-y: auto; /* Permitir scroll si la pantalla es pequeña */
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Centrar verticalmente */
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: transparent;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.8rem;
+            cursor: pointer;
+            transition: color 0.3s;
+            z-index: 10;
+            padding: 10px; /* Área táctil más grande */
+        }
+
+        .modal-close:hover {
+            color: var(--gold);
+        }
+
+        .proposal-text-container {
+            /* Contenedor para manejar la opacidad de la pregunta */
+            transition: opacity 0.5s ease;
+            margin-top: 20px;
+        }
+
+        .proposal-line {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem; /* Ajustado para móvil */
+            color: var(--gold);
+            margin: 8px 0;
+            opacity: 0;
+            transform: translateY(30px);
+            line-height: 1.1;
+            font-weight: 700;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        [data-theme="dark"] .proposal-line {
+             text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .proposal-screen.active .proposal-line {
+            animation: fadeInUp 1s forwards;
+        }
+
+        .proposal-screen.active .proposal-line:nth-child(1) { animation-delay: 0.5s; }
+        .proposal-screen.active .proposal-line:nth-child(2) { animation-delay: 1.5s; }
+        .proposal-screen.active .proposal-line:nth-child(3) { animation-delay: 2.5s; }
+
+        /* Estilos del Temporizador de Decisión (30 seg) */
+        #decision-timer-box {
+            margin-top: 30px;
+            opacity: 0;
+            animation: fadeInUp 1s forwards 3.5s; /* Aparece después de la pregunta */
+            display: none; /* Se activa con JS */
+        }
+
+        .decision-count {
+            font-size: 4rem;
+            color: var(--gold);
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            line-height: 1;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+        }
+
+        .decision-label {
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-light);
+            margin-top: 10px;
+        }
+        
+        /* Contenedor de la Respuesta Final (Cronómetro y Fecha) */
+        #final-celebration {
+            display: none; /* Oculto hasta que acabe el tiempo */
+            opacity: 0;
+            transition: opacity 1s ease;
+            margin-top: 20px;
+            padding-bottom: 40px; /* Espacio para scroll */
+        }
+        
+        #final-celebration.visible {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Contador dentro del modal */
+        .countdown-container {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 25px 0;
+            flex-wrap: wrap;
+        }
+
+        .countdown-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 70px;
+            padding: 10px;
+            border: 1px solid var(--gold);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(5px);
+            border-radius: 10px;
+            flex: 1 1 70px; /* Flexible para móvil */
+            max-width: 90px;
+        }
+
+        .count-val {
+            font-size: 1.8rem;
+            font-family: 'Playfair Display', serif;
+            color: var(--gold);
+            font-weight: 700;
+        }
+
+        .count-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-main);
+            margin-top: 5px;
+        }
+        
+        [data-theme="dark"] .count-label {
+             color: var(--text-main);
+        }
+        
+        .final-date {
+            font-size: 1.3rem;
+            letter-spacing: 3px;
+            margin-top: 20px;
+            text-transform: uppercase;
+            color: var(--text-main);
+            font-weight: 700;
+        }
+
+        .heart-particle {
+            position: absolute;
+            top: -10%;
+            color: var(--gold);
+            pointer-events: none;
+            animation: heartFall linear forwards;
+            z-index: 1000;
+        }
+
+        @keyframes heartFall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* --- ANIMACIONES KEYFRAMES --- */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Partículas */
+        .particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            animation: fall linear forwards;
+        }
+
+        /* Toggle Theme */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1100;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+        }
+
+        /* --- RESPONSIVE MEDIA QUERIES --- */
+        @media (max-width: 768px) {
+            .main-title { font-size: 2.2rem; }
+            .hero-image-placeholder { width: 160px; height: 160px; }
+            
+            /* Ajuste línea de tiempo para móvil (todo a la izquierda) */
+            .timeline-line { left: 20px; }
+            .timeline-content { width: 100%; padding-left: 50px; padding-right: 0; text-align: left !important; }
+            .timeline-item:nth-child(odd) .timeline-content { margin-left: 0; margin-right: 0; }
+            .timeline-item:nth-child(even) .timeline-content { margin-left: 0; }
+            .timeline-dot { left: 20px; }
+            
+            /* Ajuste Modal */
+            .proposal-line { font-size: 2rem; }
+            .countdown-container { gap: 8px; }
+            .countdown-box { min-width: 60px; padding: 8px; }
+            .count-val { font-size: 1.4rem; }
+            .proposal-content-wrapper { padding: 40px 15px; justify-content: flex-start; } /* Scroll desde arriba */
+            
+            /* Botones */
+            .btn-answer { width: 100%; margin: 8px 0; }
+            
+            /* Videos Youtube */
+            .youtube-container { flex-direction: column; align-items: center; }
+            .youtube-box { width: 100%; max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Toggle Modo Nocturno -->
+    <button class="theme-toggle" id="theme-btn" aria-label="Cambiar modo">☾</button>
+
+    <!-- Contenedor de Partículas -->
+    <div id="particles-container"></div>
+
+    <!-- 1. PORTADA -->
+    <header id="intro-screen">
+        <div class="intro-content">
+            <div class="hero-image-placeholder">
+                <!-- IMAGEN DE GOOGLE DRIVE (IMPORTANTE: Debe ser pública) -->
+                <!-- Se agrega un fallback por si falla la carga -->
+                <img 
+                    src="https://drive.google.com/uc?export=view&id=1Qu00GAu3TWA2j-f1fGAdBB0XxepM0jEY" 
+                    onerror="this.src='https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'; this.onerror=null;"
+                    alt="Nosotros" 
+                    style="width:100%; height:100%; object-fit:cover; opacity:0.95;"
+                >
+            </div>
+            <h1 class="main-title">Nuestra Historia</h1>
+            <p class="subtitle">Un viaje que comenzó en las estrellas...</p>
+            <button class="btn-gold" id="start-btn">Descubrir Nuestro Camino</button>
+        </div>
+    </header>
+
+    <!-- 2. TRANSICIÓN -->
+    <div id="transition-msg">Nuestro viaje comienza aquí...</div>
+
+    <!-- 3. CONTENIDO PRINCIPAL -->
+    <main id="main-content">
+        
+        <!-- Línea de Tiempo -->
+        <section class="timeline-section" id="timeline">
+            <h2 class="section-title fade-element">El Camino Hacia el Sí</h2>
+            
+            <div class="timeline-container">
+                <div class="timeline-line" id="line-progress"></div>
+
+                <!-- Hito 1 -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content glass">
+                        <span class="timeline-icon">🚲</span>
+                        <span class="timeline-date">2020 · El Inicio</span>
+                        <h3 class="timeline-title">Pandemia y Ruedas</h3>
+                        <p class="timeline-desc">
+                            En medio del caos del mundo, encontramos nuestra paz. Las citas en bicicleta y moto fueron el comienzo de una complicidad única. Tu inmensa comprensión frente a mi trabajo incansable me enseñó lo que es el apoyo incondicional.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Hito 2 -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content glass">
+                        <span class="timeline-icon">🌳</span>
+                        <span class="timeline-date">Integración</span>
+                        <h3 class="timeline-title">Nuestras Raíces</h3>
+                        <p class="timeline-desc">
+                            El momento en que conocimos a nuestras familias marcó la unión de dos mundos. Pasamos lindos momentos y construimos los cimientos de lo que hoy somos.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Hito 3 -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content glass">
+                        <span class="timeline-icon">✈️</span>
+                        <span class="timeline-date">Aventureros</span>
+                        <h3 class="timeline-title">Perú, Brasil y Más Allá</h3>
+                        <p class="timeline-desc">
+                            Nuestros pasaportes guardan las memorias de Perú y la promesa de Brasil el próximo año. Viajar contigo es mi destino favorito y nuestro objetivo es seguir explorando el mundo juntos.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Hito 4 -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content glass">
+                        <span class="timeline-icon">🏠</span>
+                        <span class="timeline-date">Enero 2026</span>
+                        <h3 class="timeline-title">Nuestro Hogar</h3>
+                        <p class="timeline-desc">
+                            Un sueño materializado en Santa Cruz. Nuestro propio departamento nos espera para llenarlo de vida, risas y crecimiento como emprendedores. Mi gran apoyo, mi socia de vida.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 4. SECCIÓN FINAL (REDISEÑADA) -->
+        <section class="proposal-section">
+            <div class="glass" style="padding: 40px; max-width: 800px; width: 100%;">
+                
+                <p class="romantic-msg">
+                    "Ale, tu amor ha sido mi refugio y mi fuerza. Gracias por abrazar mis sueños y sostener mi mano incluso cuando el tiempo nos faltaba. Eres mi paz absoluta y la inspiración que necesito para crecer cada día."
+                </p>
+
+                <!-- BOTÓN REVELADOR -->
+                <button id="final-trigger-btn" class="btn-gold btn-pulse" style="margin-top: 20px; font-size: 1.1rem;">
+                    Tengo una pregunta Importante para Ti...
+                </button>
+
+            </div>
+        </section>
+
+        <footer>
+            <p>Hacia un 2026 lleno de nuevas bendiciones y nuestra futura familia.</p>
+            <p style="margin-top:10px; font-size: 0.8rem;">Con amor eterno, Juan.</p>
+        </footer>
+
+    </main>
+
+    <!-- 5. PANTALLA FINAL DE REVELACIÓN (MODAL) -->
+    <div id="proposal-screen" class="proposal-screen" aria-hidden="true">
+        <div class="proposal-content-wrapper">
+            <button class="modal-close" id="modal-close" aria-label="Cerrar">✕</button>
+            
+            <div class="proposal-text-container">
+                <p class="proposal-line">¿Quieres...</p>
+                <p class="proposal-line">casarte...</p>
+                <p class="proposal-line">conmigo?</p>
+            </div>
+
+            <!-- TEMPORIZADOR DE DECISIÓN (30s) -->
+            <div id="decision-timer-box">
+                <div class="decision-count" id="decision-seconds">30</div>
+                <div class="decision-label">Segundos para el destino...</div>
+            </div>
+            
+            <!-- CELEBRACIÓN FINAL (CRONÓMETRO + YOUTUBE) -->
+            <div id="final-celebration">
+                <div class="final-date">26 · 09 · 2026</div>
+                
+                <div class="countdown-container">
+                    <div class="countdown-box">
+                        <span id="d" class="count-val">00</span>
+                        <span class="count-label">Días</span>
+                    </div>
+                    <div class="countdown-box">
+                        <span id="h" class="count-val">00</span>
+                        <span class="count-label">Horas</span>
+                    </div>
+                    <div class="countdown-box">
+                        <span id="m" class="count-val">00</span>
+                        <span class="count-label">Min</span>
+                    </div>
+                    <div class="countdown-box">
+                        <span id="s" class="count-val">00</span>
+                        <span class="count-label">Seg</span>
+                    </div>
+                </div>
+                
+                <p style="font-size:1.3rem; margin-top:20px; margin-bottom:30px; color:var(--gold); font-family:'Playfair Display', serif; font-style:italic; animation:pulse 2s infinite;">Te amo infinito.</p>
+
+                <!-- REPRODUCTORES DE YOUTUBE -->
+                <div class="youtube-container" style="display:flex; flex-wrap:wrap; justify-content:center; gap:20px; margin-top:20px;">
+                    <div class="youtube-box glass" style="padding:15px; max-width:350px; width: 100%;">
+                        <p style="margin-bottom:10px; font-size:0.9rem; color:var(--text-main);">Nuestra canción (Español)</p>
+                        <iframe width="100%" height="200" src="https://www.youtube.com/embed/cyalFXQOwdU" title="Hasta Mi Final" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius:10px;"></iframe>
+                    </div>
+                    
+                    <div class="youtube-box glass" style="padding:15px; max-width:350px; width: 100%;">
+                        <p style="margin-bottom:10px; font-size:0.9rem; color:var(--text-main);">Nuestra canción (Inglés)</p>
+                        <iframe width="100%" height="200" src="https://www.youtube.com/embed/2Vv-BfVoq4g" title="Perfect" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius:10px;"></iframe>
+                    </div>
+                </div>
+
+                <!-- BOTÓN REINICIAR (NUEVO) -->
+                <button onclick="location.reload()" class="btn-gold" style="margin-top: 40px; font-size: 0.9rem; padding: 12px 25px;">
+                    Volver al Inicio
+                </button>
+
+            </div>
+            
+            <div id="hearts-container"></div>
+        </div>
+    </div>
+
+    <script>
+        // --- LÓGICA DE TRANSICIÓN ---
+        const startBtn = document.getElementById('start-btn');
+        const introScreen = document.getElementById('intro-screen');
+        const transitionMsg = document.getElementById('transition-msg');
+        const mainContent = document.getElementById('main-content');
+        const lineProgress = document.getElementById('line-progress');
+        const sectionTitle = document.querySelector('.section-title');
+
+        startBtn.addEventListener('click', () => {
+            introScreen.style.opacity = '0';
+            introScreen.style.visibility = 'hidden';
+
+            transitionMsg.style.visibility = 'visible';
+            transitionMsg.style.opacity = '1';
+
+            setTimeout(() => {
+                transitionMsg.style.opacity = '0';
+                setTimeout(() => {
+                    transitionMsg.style.visibility = 'hidden';
+                    mainContent.style.visibility = 'visible';
+                    mainContent.style.opacity = '1';
+                    
+                    sectionTitle.style.transition = 'opacity 1s ease';
+                    sectionTitle.style.opacity = '1';
+                    lineProgress.style.transform = 'translateX(-50%) scaleY(1)';
+                    
+                    checkScroll();
+                }, 1000);
+            }, 2500);
+        });
+
+        // --- ANIMACIÓN SCROLL TIMELINE ---
+        const timelineItems = document.querySelectorAll('.timeline-item');
+
+        function checkScroll() {
+            const triggerBottom = window.innerHeight / 5 * 4;
+
+            timelineItems.forEach(item => {
+                const itemTop = item.getBoundingClientRect().top;
+                if (itemTop < triggerBottom) {
+                    item.classList.add('visible');
+                }
+            });
+        }
+        window.addEventListener('scroll', checkScroll);
+
+        // --- CONTADOR REGRESIVO BODA ---
+        const weddingDate = new Date("September 26, 2026 00:00:00").getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const gap = weddingDate - now;
+
+            const second = 1000;
+            const minute = second * 60;
+            const hour = minute * 60;
+            const day = hour * 24;
+
+            const d = Math.floor(gap / day);
+            const h = Math.floor((gap % day) / hour);
+            const m = Math.floor((gap % hour) / minute);
+            const s = Math.floor((gap % minute) / second);
+
+            const dEl = document.getElementById('d');
+            if(dEl) {
+                document.getElementById('d').innerText = d < 10 ? '0' + d : d;
+                document.getElementById('h').innerText = h < 10 ? '0' + h : h;
+                document.getElementById('m').innerText = m < 10 ? '0' + m : m;
+                document.getElementById('s').innerText = s < 10 ? '0' + s : s;
+            }
+        }
+        setInterval(updateCountdown, 1000);
+
+        // --- PARTÍCULAS FONDO ---
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            const isHeart = Math.random() > 0.5;
+            particle.innerText = isHeart ? '❤' : '✨';
+            
+            particle.style.left = Math.random() * 100 + "vw";
+            particle.style.animationDuration = Math.random() * 3 + 4 + "s";
+            particle.style.fontSize = Math.random() * 10 + 10 + "px";
+            particle.style.color = isHeart ? 'var(--gold)' : 'var(--pink-soft)';
+            particle.style.opacity = Math.random();
+            particle.style.animationName = 'fall';
+            particle.style.animationTimingFunction = 'linear';
+
+            document.getElementById('particles-container').appendChild(particle);
+
+            setTimeout(() => { particle.remove(); }, 7000);
+        }
+        setInterval(createParticle, 300);
+
+        // --- TOGGLE MODO NOCTURNO ---
+        const themeBtn = document.getElementById('theme-btn');
+        let isDark = false;
+        themeBtn.addEventListener('click', () => {
+            isDark = !isDark;
+            document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+            themeBtn.innerText = isDark ? '☀' : '☾';
+        });
+
+        // --- LÓGICA DE REVELACIÓN FINAL ---
+        const finalTriggerBtn = document.getElementById('final-trigger-btn');
+        const proposalScreen = document.getElementById('proposal-screen');
+        const modalClose = document.getElementById('modal-close');
+        const heartsContainer = document.getElementById('hearts-container');
+        const finalCelebration = document.getElementById('final-celebration');
+        const decisionTimerBox = document.getElementById('decision-timer-box');
+        const decisionSecondsEl = document.getElementById('decision-seconds');
+        const proposalTextContainer = document.querySelector('.proposal-text-container');
+
+        function createModalHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart-particle';
+            heart.innerHTML = '❤';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
+            heart.style.fontSize = (Math.random() * 10 + 15) + 'px';
+            heart.style.opacity = Math.random() * 0.5 + 0.3;
+            heartsContainer.appendChild(heart);
+            setTimeout(() => { heart.remove(); }, 5000);
+        }
+
+        // Abrir Modal Inicial (Pregunta + Timer 30s)
+        function openProposal() {
+            proposalScreen.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            // Estado Inicial del Modal
+            proposalTextContainer.style.display = 'block';
+            proposalTextContainer.style.opacity = '1';
+            
+            decisionTimerBox.style.display = 'block';
+            decisionTimerBox.style.opacity = '1'; // Se animará por CSS keyframe fadeInUp
+            
+            finalCelebration.classList.remove('visible');
+            finalCelebration.style.display = 'none';
+            
+            // INICIAR CUENTA REGRESIVA DE 30s
+            let timeLeft = 30;
+            decisionSecondsEl.innerText = timeLeft;
+            
+            playBellSound(); // Sonido inicial sutil
+            
+            const timerInterval = setInterval(() => {
+                timeLeft--;
+                decisionSecondsEl.innerText = timeLeft;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    triggerFinale(); // Activar celebración automática
+                }
+            }, 1000);
+            
+            proposalScreen.decisionInterval = timerInterval;
+        }
+        
+        // Función que revela la sorpresa final
+        function triggerFinale() {
+            // Ocultar pregunta y temporizador
+            proposalTextContainer.style.transition = 'opacity 0.5s ease';
+            decisionTimerBox.style.transition = 'opacity 0.5s ease';
+            
+            proposalTextContainer.style.opacity = '0';
+            decisionTimerBox.style.opacity = '0';
+            
+            setTimeout(() => {
+                proposalTextContainer.style.display = 'none';
+                decisionTimerBox.style.display = 'none';
+                
+                // Mostrar celebración
+                finalCelebration.style.display = 'block';
+                // Pequeño delay para permitir que el display:block renderice antes de la opacidad
+                setTimeout(() => {
+                    finalCelebration.classList.add('visible');
+                }, 50);
+                
+                // Lluvia de corazones INTENSA
+                const heartInterval = setInterval(createModalHeart, 100);
+                proposalScreen.heartInterval = heartInterval;
+                
+                // Sonido celebración
+                playBellSound();
+            }, 500);
+        }
+
+        function closeProposal() {
+            proposalScreen.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            
+            // Limpiar intervalos
+            if (proposalScreen.heartInterval) clearInterval(proposalScreen.heartInterval);
+            if (proposalScreen.decisionInterval) clearInterval(proposalScreen.decisionInterval);
+            
+            heartsContainer.innerHTML = '';
+        }
+        
+        function playBellSound() {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime); 
+                oscillator.frequency.setValueAtTime(659.25, audioContext.currentTime + 0.2); 
+                gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.5);
+            } catch (e) {}
+        }
+
+        finalTriggerBtn.addEventListener('click', openProposal);
+        modalClose.addEventListener('click', closeProposal);
+    </script>
+</body>
+</html>
