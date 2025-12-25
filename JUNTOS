@@ -749,7 +749,7 @@
 
             <!-- TEMPORIZADOR DE DECISIÓN (30s) -->
             <div id="decision-timer-box">
-                <div class="decision-count" id="decision-seconds">30</div>
+                <div class="decision-count" id="decision-seconds">15</div>
                 <div class="decision-label">Segundos para el destino...</div>
             </div>
             
